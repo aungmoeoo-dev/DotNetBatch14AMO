@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DotNetBarch14AMO.ConsoleApp1;
+namespace DotNetBatch14AMO.ConsoleApp1;
 
 internal class AppSettings
 {

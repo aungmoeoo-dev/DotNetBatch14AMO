@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DotNetBarch14AMO.ConsoleApp1.AdoDotNetExamples;
+namespace DotNetBatch14AMO.ConsoleApp1.AdoDotNetExamples;
 
 internal class AdoDotNetExample
 {
@@ -25,7 +25,7 @@ internal class AdoDotNetExample
 
 		connection.Close();
 
-		foreach(DataRow row in dt.Rows)
+		foreach (DataRow row in dt.Rows)
 		{
 			Console.WriteLine(row["BlogId"]);
 			Console.WriteLine(row["BlogTitle"]);
@@ -33,7 +33,7 @@ internal class AdoDotNetExample
 			Console.WriteLine(row["BlogContent"]);
 		}
 	}
-	
+
 	public void Edit(string id)
 	{
 		SqlConnection connection = new(AppSettings.SqlConnectionStringBuilder.ConnectionString);
@@ -48,7 +48,7 @@ internal class AdoDotNetExample
 
 		connection.Close();
 
-		if(dt.Rows.Count == 0)
+		if (dt.Rows.Count == 0)
 		{
 			Console.WriteLine("No data found.");
 			return;
@@ -61,14 +61,14 @@ internal class AdoDotNetExample
 		Console.WriteLine(row["BlogAuthor"]);
 		Console.WriteLine(row["BlogContent"]);
 	}
-	
+
 	public void Create(string title, string author, string content)
 	{
 		SqlConnection connection = new(AppSettings.SqlConnectionStringBuilder.ConnectionString);
 
 		connection.Open();
 
-		string query =  $@"INSERT INTO [dbo].[TBL_Blog]
+		string query = $@"INSERT INTO [dbo].[TBL_Blog]
            ([BlogTitle]
            ,[BlogAuthor]
            ,[BlogContent])
@@ -85,7 +85,7 @@ internal class AdoDotNetExample
 
 		connection.Close();
 	}
-	
+
 	public void Update(string id, string title, string author, string content)
 	{
 		SqlConnection connection = new(AppSettings.SqlConnectionStringBuilder.ConnectionString);
@@ -109,7 +109,7 @@ internal class AdoDotNetExample
 		Console.WriteLine(message);
 
 	}
-	
+
 	public void Delete(string id)
 	{
 		SqlConnection connection = new(AppSettings.SqlConnectionStringBuilder.ConnectionString);

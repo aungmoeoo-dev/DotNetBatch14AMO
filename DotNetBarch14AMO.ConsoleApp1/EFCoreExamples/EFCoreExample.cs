@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DotNetBarch14AMO.ConsoleApp1.EFCoreExamples;
+namespace DotNetBatch14AMO.ConsoleApp1.EFCoreExamples;
 
 internal class EFCoreExample
 {
@@ -14,15 +14,15 @@ internal class EFCoreExample
 	{
 		var blogs = _db.Blogs.ToList();
 
-        foreach (var blog in blogs)
-        {
+		foreach (var blog in blogs)
+		{
 			Console.WriteLine(blog.Id);
 			Console.WriteLine(blog.Title);
 			Console.WriteLine(blog.Author);
 			Console.WriteLine(blog.Content);
-        }
-    }
-	
+		}
+	}
+
 	public void Edit(string id)
 	{
 		var blog = _db.Blogs.FirstOrDefault(x => x.Id == id);
@@ -38,7 +38,7 @@ internal class EFCoreExample
 		Console.WriteLine(blog.Author);
 		Console.WriteLine(blog.Content);
 	}
-	
+
 	public void Create(string title, string author, string content)
 	{
 		var blog = new TBLBlog
@@ -56,7 +56,7 @@ internal class EFCoreExample
 
 		Console.WriteLine(message);
 	}
-	
+
 	public void Update(string id, string title, string author, string content)
 	{
 		var blog = _db.Blogs.AsNoTracking().FirstOrDefault(x => x.Id == id);
@@ -72,13 +72,13 @@ internal class EFCoreExample
 		blog.Content = content;
 
 		_db.Entry(blog).State = EntityState.Modified;
-		int result =_db.SaveChanges();
+		int result = _db.SaveChanges();
 
 		string message = result > 0 ? "Updating successful." : "Updating failed.";
 
 		Console.WriteLine(message);
 	}
-	
+
 	public void Delete(string id)
 	{
 		var blog = _db.Blogs.AsNoTracking().FirstOrDefault(x => x.Id == id);

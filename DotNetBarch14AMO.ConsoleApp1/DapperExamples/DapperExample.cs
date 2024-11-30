@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using DotNetBarch14AMO.ConsoleApp1.Dtos;
+using DotNetBatch14AMO.ConsoleApp1.Dtos;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DotNetBarch14AMO.ConsoleApp1.DapperExamples;
+namespace DotNetBatch14AMO.ConsoleApp1.DapperExamples;
 
 internal class DapperExample
 {
@@ -17,9 +17,9 @@ internal class DapperExample
 	{
 		using IDbConnection connection = new SqlConnection(AppSettings.SqlConnectionStringBuilder.ConnectionString);
 
-		var blogs = connection.Query<BlogDto>("select * from TBL_Blog").ToList() ;
+		var blogs = connection.Query<BlogDto>("select * from TBL_Blog").ToList();
 
-		foreach(var blog in blogs)
+		foreach (var blog in blogs)
 		{
 			Console.WriteLine(blog.BlogId);
 			Console.WriteLine(blog.BlogTitle);
@@ -27,14 +27,14 @@ internal class DapperExample
 			Console.WriteLine(blog.BlogContent);
 		}
 	}
-	
+
 	public void Edit(string id)
 	{
 		using IDbConnection connection = new SqlConnection(AppSettings.SqlConnectionStringBuilder.ConnectionString);
 
 		var blog = connection.Query<BlogDto>($"select * from TBL_Blog where BlogId = '{id}'").FirstOrDefault();
 
-		if(blog is null)
+		if (blog is null)
 		{
 			Console.WriteLine("No data found.");
 			return;
@@ -46,7 +46,7 @@ internal class DapperExample
 		Console.WriteLine(blog.BlogContent);
 
 	}
-	
+
 	public void Create(string title, string author, string content)
 	{
 		using IDbConnection connection = new SqlConnection(AppSettings.SqlConnectionStringBuilder.ConnectionString);
@@ -66,7 +66,7 @@ internal class DapperExample
 
 		Console.WriteLine(message);
 	}
-	
+
 	public void Update(string id, string title, string author, string content)
 	{
 		using IDbConnection connection = new SqlConnection(AppSettings.SqlConnectionStringBuilder.ConnectionString);
@@ -84,7 +84,7 @@ internal class DapperExample
 		Console.WriteLine(message);
 
 	}
-	
+
 	public void Delete(string id)
 	{
 		using IDbConnection connection = new SqlConnection(AppSettings.SqlConnectionStringBuilder.ConnectionString);

@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetBatch14AMO.ConsoleApp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetBatch14AMO.ConsoleApp3", "DotNetBatch14AMO.ConsoleApp3\DotNetBatch14AMO.ConsoleApp3.csproj", "{6950BE09-80F0-46B1-AF88-C074F3BDEE52}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetBatch14AMO.RestApi", "DotNetBatch14AMO.RestApi\DotNetBatch14AMO.RestApi.csproj", "{359CCEF9-7432-48B7-BF52-EC9B26CE326E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6950BE09-80F0-46B1-AF88-C074F3BDEE52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6950BE09-80F0-46B1-AF88-C074F3BDEE52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6950BE09-80F0-46B1-AF88-C074F3BDEE52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{359CCEF9-7432-48B7-BF52-EC9B26CE326E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{359CCEF9-7432-48B7-BF52-EC9B26CE326E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{359CCEF9-7432-48B7-BF52-EC9B26CE326E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{359CCEF9-7432-48B7-BF52-EC9B26CE326E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

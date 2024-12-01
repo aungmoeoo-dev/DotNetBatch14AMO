@@ -71,7 +71,7 @@ public class BlogController : ControllerBase
 	{
 		var model = blogService.DeleteBlog(id);
 
-		if (!model.IsSuccessful) return BadRequest(model);
+		if (!model.IsSuccessful) return NotFound(model);
 
 		return Ok(model);
 	}

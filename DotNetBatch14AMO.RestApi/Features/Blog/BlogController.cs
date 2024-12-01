@@ -7,11 +7,11 @@ namespace DotNetBatch14AMO.RestApi.Features.Blog;
 [ApiController]
 public class BlogController : ControllerBase
 {
-	private BlogService blogService;
+	private IBlogService blogService;
 
 	public BlogController()
 	{
-		blogService = new BlogService();
+		blogService = new BlogDapperService();
 	}
 
 	[HttpGet]
@@ -43,11 +43,11 @@ public class BlogController : ControllerBase
 	}
 
 	[HttpPut("{id}")]
-	public IActionResult UpdateBlog(string id, [FromBody] BlogModel requestModel)
+	public IActionResult UpsertBlog(string id, [FromBody] BlogModel requestModel)
 	{
 		requestModel.BlogId = id;
 
-		var model = blogService.UpdateBlog(requestModel);
+		var model = blogService.UpsertBlog(requestModel);
 
 		if (!model.IsSuccessful) return BadRequest(model);
 
@@ -55,11 +55,11 @@ public class BlogController : ControllerBase
 	}
 
 	[HttpPatch("{id}")]
-	public IActionResult PatchBlog(string id, [FromBody] BlogModel requestModel)
+	public IActionResult UpdateBlog(string id, [FromBody] BlogModel requestModel)
 	{
 		requestModel.BlogId = id;
 
-		var model = blogService.PatchBlog(requestModel);
+		var model = blogService.UpdateBlog(requestModel);
 
 		if(!model.IsSuccessful) return BadRequest(model);
 

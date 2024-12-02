@@ -11,7 +11,7 @@ public class BlogController : ControllerBase
 
 	public BlogController()
 	{
-		blogService = new BlogDapperService();
+		blogService = new BlogEFCoreService();
 	}
 
 	[HttpGet]

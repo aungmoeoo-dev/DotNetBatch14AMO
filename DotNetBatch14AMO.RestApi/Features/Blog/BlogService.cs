@@ -170,42 +170,49 @@ public class BlogService : IBlogService
 
 	public BlogResponseModel UpsertBlog(BlogModel requestModel)
 	{
-		var responseModel = new BlogResponseModel();
+		BlogResponseModel responseModel = new();
+
+		// check if the request has all the data
+		if (requestModel.BlogTitle is null || requestModel.BlogAuthor is null || requestModel.BlogContent is null)
+		{
+			responseModel.IsSuccessful = false;
+			responseModel.Message = "Updating failed.";
+
+			return responseModel;
+		}
+
 		var blog = GetBlog(requestModel.BlogId!);
 
-		if (blog is not null)
+		if (blog is null)
 		{
-			string connectionString = _SqlConnectionStringBuilder.ConnectionString;
-			SqlConnection connection = new(connectionString);
+			return CreateBlog(requestModel);
+		}
 
-			connection.Open();
+		string connectionString = _SqlConnectionStringBuilder.ConnectionString;
+		SqlConnection connection = new(connectionString);
 
-			string query = $@"UPDATE [dbo].[TBL_Blog]
+		connection.Open();
+
+		string query = $@"UPDATE [dbo].[TBL_Blog]
    SET [BlogTitle] = @BlogTitle
       ,[BlogAuthor] = @BlogAuthor
       ,[BlogContent] = @BlogContent
  WHERE BlogId = @BlogId";
 
-			SqlCommand cmd = new(query, connection);
-			cmd.Parameters.AddWithValue("@BlogId", requestModel.BlogId);
-			cmd.Parameters.AddWithValue("@BlogTitle", requestModel.BlogTitle);
-			cmd.Parameters.AddWithValue("@BlogAuthor", requestModel.BlogAuthor);
-			cmd.Parameters.AddWithValue("@BlogContent", requestModel.BlogContent);
+		SqlCommand cmd = new(query, connection);
+		cmd.Parameters.AddWithValue("@BlogId", requestModel.BlogId);
+		cmd.Parameters.AddWithValue("@BlogTitle", requestModel.BlogTitle);
+		cmd.Parameters.AddWithValue("@BlogAuthor", requestModel.BlogAuthor);
+		cmd.Parameters.AddWithValue("@BlogContent", requestModel.BlogContent);
 
-			int result = cmd.ExecuteNonQuery();
+		int result = cmd.ExecuteNonQuery();
 
-			connection.Close();
+		connection.Close();
 
-			string message = result > 0 ? "Updating successful." : "Updating failed.";
+		string message = result > 0 ? "Updating successful." : "Updating failed.";
 
-			responseModel.IsSuccessful = result > 0;
-			responseModel.Message = message;
-
-		}
-		else if (blog is null)
-		{
-			responseModel = CreateBlog(requestModel);
-		}
+		responseModel.IsSuccessful = result > 0;
+		responseModel.Message = message;
 
 		return responseModel;
 	}

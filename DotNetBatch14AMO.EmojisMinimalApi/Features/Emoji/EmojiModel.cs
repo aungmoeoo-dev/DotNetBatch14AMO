@@ -5,14 +5,13 @@ namespace DotNetBatch14AMO.EmojisMinimalApi.Features.Emoji;
 
 public class EmojiModel
 {
-	public string EmojiId { get; set; }
 	public string Emoji { get; set; }
-	public string EmojiName { get; set; }
-	public string EmojiShortname { get; set; }
-	public string EmojiUnicode { get; set; }
-	public string EmojiHtml { get; set; }
-	public string EmojiCategory { get; set; }
-	public string EmojiOrder { get; set; }
+	public string Name { get; set; }
+	public string Shortname { get; set; }
+	public string Unicode { get; set; }
+	public string Html { get; set; }
+	public string Category { get; set; }
+	public string Order { get; set; }
 }
 
 public class EmojiRequestModel

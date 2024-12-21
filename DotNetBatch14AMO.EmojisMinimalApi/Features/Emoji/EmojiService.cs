@@ -1,6 +1,4 @@
-﻿using Dapper;
-using DotNetBatch14AMO.EmojisMinimalApi.Utilities;
-using Microsoft.Data.SqlClient;
+﻿using DotNetBatch14AMO.EmojisMinimalApi.Utilities;
 using Newtonsoft.Json;
 using System.Data;
 
@@ -10,85 +8,48 @@ public class EmojiService
 {
 	private readonly HttpClient _httpClient;
 	private readonly string _endpoint;
-
-	private readonly string _connectionString;
-	private readonly SqlConnectionStringBuilder _sqlconnectionStringBuilder = new()
-	{
-		DataSource = ".",
-		InitialCatalog = "EmojiDb",
-		UserID = "sa",
-		Password = "Aa145156167!",
-		TrustServerCertificate = true
-	};
+	private List<EmojiModel> Emojis { get; set; }
 
 	public EmojiService()
 	{
-		_connectionString = _sqlconnectionStringBuilder.ConnectionString;
 		_endpoint = "https://gist.githubusercontent.com/oliveratgithub/0bf11a9aff0d6da7b46f1490f86a71eb/raw/d8e4b78cfe66862cf3809443c1dba017f37b61db/emojis.json";
 		_httpClient = new HttpClient();
 	}
 
-	public async Task InsertEmojis()
+	private async Task LoadEmojis()
 	{
-		HttpResponseMessage responseMessage = await _httpClient.GetAsync(_endpoint);
-		string content = await responseMessage.Content.ReadAsStringAsync();
+		EmojiRequestModel requestModel = await _httpClient.GetFromJsonAsync<EmojiRequestModel>(_endpoint);
 
-		EmojiRequestModel requestModel = JsonConvert.DeserializeObject<EmojiRequestModel>(content)!;
-
-		List<EmojiModel> list = requestModel.Emojis;
-
-		using IDbConnection connection = new SqlConnection(_connectionString);
-
-		foreach (var emoji in list)
-		{
-			string query = @"INSERT INTO [dbo].[TBL_Emoji]
-           ([Emoji]
-           ,[EmojiName]
-           ,[EmojiShortname]
-           ,[EmojiUnicode]
-           ,[EmojiHtml]
-           ,[EmojiCategory]
-           ,[EmojiOrder])
-     VALUES
-           (@Emoji
-           ,@Name
-           ,@Shortname
-           ,@Unicode
-           ,@Html
-           ,@Category
-           ,@Order)";
-
-			connection.Execute(query, emoji);
-		}
+		Emojis = requestModel.Emojis;
 	}
 
 	public async Task<EmojiListResponseModel> GetEmojis()
 	{
-		using IDbConnection connection = new SqlConnection(_connectionString);
-
-		string query = "select * from TBL_Emoji";
-
-		var emojiEnumerable = await connection.QueryAsync<EmojiModel>(query);
-		var emojiList = emojiEnumerable.ToList();
+		if (Emojis is null)
+		{
+			await LoadEmojis();
+		}
 
 		EmojiListResponseModel responseModel = new()
 		{
 			IsSuccess = true,
 			Message = "Success",
-			Data = emojiList
+			Data = Emojis!
 		};
 		return responseModel;
 	}
 
-	public async Task<EmojiResponseModel> GetEmojiById(string id)
+	public async Task<EmojiResponseModel> GetEmojiById(string name)
 	{
 		EmojiResponseModel responseModel = new();
 
-		using IDbConnection connection = new SqlConnection(_connectionString);
+		if (Emojis is null)
+		{
+			await LoadEmojis();
+		}
 
-		string query = "select * from TBL_Emoji where EmojiId = @EmojiId";
+		var emojiModel = Emojis!.Where(x => x.Name == name).FirstOrDefault();
 
-		var emojiModel = await connection.QueryFirstOrDefaultAsync<EmojiModel>(query, new { EmojiId = id });
 		if (emojiModel is null)
 		{
 			responseModel.IsSuccess = false;
@@ -106,16 +67,18 @@ public class EmojiService
 	{
 		EmojiListResponseModel responseModel = new();
 
-		using IDbConnection connection = new SqlConnection(_connectionString);
+		if (Emojis is null)
+		{
+			await LoadEmojis();
+		}
 
-		string query = "select * from TBL_Emoji where EmojiName like @EmojiName";
-
-		var emojiEnumerable = await connection.QueryAsync<EmojiModel>(query, new { EmojiName = $"%{name}%" });
-		var emojiList = emojiEnumerable.ToList();
+		var emojis = Emojis!
+			.Where(x => x.Name.ToLower().Contains(name.ToLower()))
+			.ToList();
 
 		responseModel.IsSuccess = true;
 		responseModel.Message = "Success";
-		responseModel.Data = emojiList;
+		responseModel.Data = emojis;
 
 		return responseModel;
 	}

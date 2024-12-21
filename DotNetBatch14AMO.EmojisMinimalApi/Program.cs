@@ -1,4 +1,3 @@
-using Azure;
 using DotNetBatch14AMO.EmojisMinimalApi.Features.Emoji;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,12 +21,13 @@ app.UseHttpsRedirection();
 //EmojiService emojiService = new();
 //await emojiService.InsertEmojis();
 
+EmojiService emojiService = new EmojiService();
+
 app.MapGet("/api/Emoji", async () =>
 {
 	EmojiListResponseModel responseModel = new();
 	try
 	{
-		EmojiService emojiService = new EmojiService();
 		responseModel = await emojiService.GetEmojis();
 		return Results.Ok(responseModel);
 	}
@@ -42,13 +42,12 @@ app.MapGet("/api/Emoji", async () =>
 .WithName("Get")
 .WithOpenApi();
 
-app.MapGet("/api/Emoji/{id}", async (string id) =>
+app.MapGet("/api/Emoji/{name}", async (string name) =>
 {
 	EmojiResponseModel responseModel = new();
 	try
 	{
-		EmojiService emojiService = new EmojiService();
-		responseModel = await emojiService.GetEmojiById(id);
+		responseModel = await emojiService.GetEmojiById(name);
 
 		if (!responseModel.IsSuccess) return Results.BadRequest(responseModel);
 
@@ -70,7 +69,6 @@ app.MapGet("/api/Emoji/FilterByName/{name}", async (string name) =>
 	EmojiListResponseModel responseModel = new();
 	try
 	{
-		EmojiService emojiService = new EmojiService();
 		responseModel = await emojiService.FilterByName(name);
 		return Results.Ok(responseModel);
 	}

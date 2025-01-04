@@ -1,6 +1,12 @@
-$("#btnSave").click(function () {
+$("#btnSave").click(function (e) {
+  e.preventDefault();
+
   if (editBlogId == null) {
-    saveData();
+
+    setTimeout(() => {
+      saveData();
+    }, 2500)
+
   } else {
     updateData();
   }
@@ -38,6 +44,7 @@ function saveData() {
   const jsonStr = JSON.stringify(list);
   localStorage.setItem("blogs", jsonStr);
   clearControls();
+  successMessage("Saving successful.");
   loadData();
 }
 
@@ -67,6 +74,7 @@ function updateData() {
   const jsonStr = JSON.stringify(list);
   localStorage.setItem("blogs", jsonStr);
   clearControls();
+  successMessage("Saving successful.");
   loadData();
 
   editBlogId = null;
@@ -122,12 +130,15 @@ function bindDeleteButton() {
   $(".btn-delete").click(function () {
     const id = $(this).data("blog-id");
 
-    let list = getData();
+    confirmMessage("Are you sure you want to delete this blog?", (result) => {
+      if (!result) return;
+      let list = getData();
 
-    list = list.filter((x) => x.id != id);
-    const jsonStr = JSON.stringify(list);
-    localStorage.setItem("blogs", jsonStr);
-    loadData();
+      list = list.filter((x) => x.id != id);
+      const jsonStr = JSON.stringify(list);
+      localStorage.setItem("blogs", jsonStr);
+      loadData();
+    });
   });
 }
 
@@ -143,3 +154,27 @@ function uuidv4() {
 $(document).ready(function () {
   loadData();
 });
+
+function successMessage(message) {
+  Notiflix.Notify.success(message);
+}
+
+function confirmMessage(message, callback) {
+  Notiflix.Confirm.show(
+    "Confirm",
+    message,
+    "Yes",
+    "No",
+    () => callback(true),
+    () => callback(false),
+    {}
+  );
+}
+
+function isLoading(isLoading) {
+  if (isLoading) {
+    Notiflix.Block.dots("#loading", "Please wait...");
+  } else {
+    Notiflix.Block.remove("#loading", 2000);
+  }
+}

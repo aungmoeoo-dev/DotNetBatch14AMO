@@ -2,7 +2,7 @@
 using Microsoft.Data.SqlClient;
 using System.Data;
 
-namespace DotNetBatch14AMO.RestApi.Features.Blog;
+namespace DotNetBatch14AMO.Shared;
 
 public class BlogDapperService : IBlogService
 {
@@ -82,19 +82,19 @@ public class BlogDapperService : IBlogService
 			Message = "No data found."
 		};
 
-		string conditionStr = String.Empty;
+		string conditionStr = string.Empty;
 
-		if (!String.IsNullOrEmpty(requestModel.BlogTitle))
+		if (!string.IsNullOrEmpty(requestModel.BlogTitle))
 		{
 			conditionStr += " [BlogTitle] = @BlogTitle, ";
 			blog.BlogTitle = requestModel.BlogTitle;
 		}
-		if (!String.IsNullOrEmpty(requestModel.BlogAuthor))
+		if (!string.IsNullOrEmpty(requestModel.BlogAuthor))
 		{
 			conditionStr += " [BlogAuthor] = @BlogAuthor, ";
 			blog.BlogAuthor = requestModel.BlogAuthor;
 		}
-		if (!String.IsNullOrEmpty(requestModel.BlogContent))
+		if (!string.IsNullOrEmpty(requestModel.BlogContent))
 		{
 			conditionStr += " [BlogContent] = @BlogContent, ";
 			blog.BlogContent = requestModel.BlogContent;
@@ -131,8 +131,8 @@ public class BlogDapperService : IBlogService
 		var responseModel = new BlogResponseModel();
 
 		// check if the request has all the data
-		if (requestModel.BlogTitle is null 
-			|| requestModel.BlogAuthor is null 
+		if (requestModel.BlogTitle is null
+			|| requestModel.BlogAuthor is null
 			|| requestModel.BlogContent is null)
 		{
 			responseModel.IsSuccessful = false;

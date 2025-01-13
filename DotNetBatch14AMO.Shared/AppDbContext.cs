@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
-namespace DotNetBatch14AMO.RestApi.Features.Blog;
+namespace DotNetBatch14AMO.Shared;
 
 public class AppDbContext : DbContext
 {

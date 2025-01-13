@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DotNetBatch14AMO.RestApi.Features.Blog;
+namespace DotNetBatch14AMO.Shared;
 
 [Table("TBL_Blog")]
 public class BlogModel

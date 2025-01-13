@@ -1,8 +1,7 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace DotNetBatch14AMO.RestApi.Features.Blog;
+namespace DotNetBatch14AMO.Shared;
 
 public class BlogEFCoreService : IBlogService
 {

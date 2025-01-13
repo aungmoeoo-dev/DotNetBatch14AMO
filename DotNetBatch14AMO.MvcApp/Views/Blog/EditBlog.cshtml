@@ -1,0 +1,19 @@
+﻿@model BlogModel
+@{
+}
+
+<form action="/blog/update/@Model.BlogId" method="post">
+    <div class="mb-3">
+        <label for="txtTitle" class="form-label">Title</label>
+        <input class="form-control" name="BlogTitle" id="txtTitle" value="@Model.BlogTitle">
+    </div>
+    <div class="mb-3">
+        <label for="txtAuthor" class="form-label">Author</label>
+        <input class="form-control" name="BlogAuthor" id="txtAuthor" value="@Model.BlogAuthor">
+    </div>
+    <div class="mb-3">
+        <label for="txtContent" class="form-label">Content</label>
+        <input class="form-control" name="BlogContent" id="txtContent" value="@Model.BlogContent">
+    </div>
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>

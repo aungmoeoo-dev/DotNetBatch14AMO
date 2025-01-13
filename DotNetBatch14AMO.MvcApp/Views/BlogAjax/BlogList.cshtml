@@ -1,0 +1,75 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td></td>
+            <td>No.</td>
+            <td>Title</td>
+            <td>Author</td>
+            <td>Content</td>
+        </tr>
+    </thead>
+    <tbody id="table">
+    </tbody>
+</table>
+@section scripts {
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "blogajax/getblogs",
+                type: 'GET',
+                success: function(data) {
+                    let rows = "";
+
+                    for(let i = 0; i < data.length; i++) {
+                        let blog = data[i]
+
+                        let row = `
+                        <tr>
+                            <td>
+                                 <a href="/blog/edit/${blog.BlogId}" class="btn btn-outline-warning">Edit</a>
+                                 <button class="btn btn-outline-danger" data-id="${blog.BlogId}">Delete</button>
+                            </td>
+                            <td>${i + 1}</td>
+                            <td>${blog.BlogTitle}</td>
+                            <td>${blog.BlogAuthor}</td>
+                            <td>${blog.BlogContent}</td>
+                        </tr>
+                        `
+
+                        rows += row
+                    }
+
+                    $("table").html(rows)
+                    bindDeleteBtn()
+                }
+            })
+        })
+
+        function bindDeleteBtn() {
+            $(".btn-outline-danger").click(function() {
+                const blogId = $(this).data("id");
+                console.log({blogId})
+                $.ajax({
+                    url: `/blogajax/delete/${blogId}`,
+                    type: "POST",
+                    data: {BlogId: blogId},
+                    success: function(data) {
+                        console.log({data})
+                        if(!data.IsSuccessful) {
+                            alert(data.Message)
+                            return;
+                        }
+                        alert(data.Message)
+                        location.href = "/blogajax"
+                    }
+                })
+            })
+        }
+    </script>
+}

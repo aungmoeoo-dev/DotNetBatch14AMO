@@ -1,0 +1,44 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="mb-3">
+    <label for="txtTitle" class="form-label">Title</label>
+    <input class="form-control" name="BlogTitle" id="txtTitle">
+</div>
+<div class="mb-3">
+    <label for="txtAuthor" class="form-label">Author</label>
+    <input class="form-control" name="BlogAuthor" id="txtAuthor">
+</div>
+<div class="mb-3">
+    <label for="txtContent" class="form-label">Content</label>
+    <input class="form-control" name="BlogContent" id="txtContent">
+</div>
+<button class="btn btn-primary" type="submit">Save</button>
+
+@section scripts {
+    <script>
+        $("button").click(function() {
+            const blog = {
+                BlogTitle: $("#txtTitle").val(),
+                BlogAuthor: $("#txtAuthor").val(),
+                BlogContent: $("#txtContent").val()
+            }
+
+            $.ajax({
+                url: "/blogajax/save",
+                type: "POST",
+                data: blog,
+                success: function(data) {
+                    if(!data.IsSuccessful) {
+                        alert(data.Message)
+                        return;
+                    }
+                    alert(data.Message)
+                    location.href = "/blogajax"
+                }
+            })
+        })
+    </script>
+}

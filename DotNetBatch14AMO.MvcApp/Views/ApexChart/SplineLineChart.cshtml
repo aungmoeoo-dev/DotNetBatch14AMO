@@ -1,0 +1,58 @@
+﻿@model LineChartModel
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Serialization
+
+@{
+    LineChartSerieModel[] _series = Model.Series;
+    string[] _labels = Model.Labels;
+
+    DefaultContractResolver _contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            };
+
+    var _jsonSetting = new JsonSerializerSettings
+            {
+                ContractResolver = _contractResolver,
+                Formatting = Formatting.Indented
+            };
+}
+
+<div id="splinechart"></div>
+
+@section scripts {
+    <script src="/lib/ApexCharts/index.js"></script>
+
+    <script>
+
+        const _series = @Html.Raw(JsonConvert.SerializeObject(_series, _jsonSetting))
+        const _labels =  @Html.Raw(JsonConvert.SerializeObject(_labels))
+
+        var options = {
+          series: _series,
+          chart: {
+          width: 620,
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        labels: _labels,
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#splinechart"), options);
+        chart.render();
+
+    </script>
+
+}

@@ -31,6 +31,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller=BlogAjax}/{action=Index}/{id?}");
+	pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

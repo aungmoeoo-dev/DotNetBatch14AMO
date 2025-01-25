@@ -18,9 +18,11 @@ namespace DotNetBatch14AMO.MvcApp.Controllers
 			return View();
 		}
 
+		[ActionName("PrivacyPage")]
 		public IActionResult Privacy()
 		{
-			return View();
+			ViewData["Title"] = "My Privacy";
+			return View("Privacy");
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
